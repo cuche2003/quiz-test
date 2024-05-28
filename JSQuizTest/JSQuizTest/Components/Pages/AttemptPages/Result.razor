@@ -1,0 +1,80 @@
+﻿@page "/attempts/result"
+@inject JSQuizTest.Data.ApplicationDbContext DB
+@using JSQuizTest.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+@using JSQuizTest.Services
+@inject QuizService QuizService
+
+<PageTitle>Result</PageTitle>
+
+<h1>Result</h1>
+
+<div>
+    <h4>Attempt</h4>
+    <hr />
+    @if (attempt is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div class="mb-5">
+            @foreach (var question in Quiz!.Questions)
+            {
+                <p class="h5">@question.Description</p>
+                <ul class="list-group">
+                    @foreach (var choice in question!.Choices)
+                    {
+                        <li class="list-group-item @(choice.IsCorrect ? "bg-primary" : "bg-danger")">
+                            <input class="form-check-input" name="SelectedChoices" type="checkbox" checked="@(SelectedChoices.Contains(choice.Id))" disabled>
+                            <span class="form-check-label">@choice.Description</span>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+
+        <div>
+            <a href="@($"/attempts/history?quizid={Quiz.Id}")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    Attempt? attempt;
+
+    [SupplyParameterFromQuery]
+    public int? Id { get; set; }
+
+    public Quiz? Quiz { get; set; }
+
+    protected List<int> SelectedChoices { get; set; } = new List<int>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        attempt = await DB.Attempt.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (attempt is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+            return;
+        }
+
+        Quiz = await DB.Quiz
+                        .Include(q => q.Questions)
+                        .ThenInclude(q => q.Choices)
+                        .FirstOrDefaultAsync(q => q.Id == attempt.QuizId);
+
+        SelectedChoices = await DB.AttemptChoice
+                            .Where(ac => ac.AttemptId == Id)
+                            .Select(ac => ac.Id)
+                            .ToListAsync();
+
+        if (Quiz is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+            return;
+        }
+    }
+}

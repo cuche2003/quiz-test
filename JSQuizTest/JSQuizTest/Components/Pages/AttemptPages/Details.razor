@@ -1,0 +1,119 @@
+﻿@page "/attempts/details"
+@inject JSQuizTest.Data.ApplicationDbContext DB
+@using JSQuizTest.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+@using JSQuizTest.Services
+@inject QuizService QuizService
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h4>Attempt</h4>
+    <hr />
+    @if (attempt is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else 
+    {
+        if (!attempt.IsDone)
+        {   
+             <EditForm method="post" Model="SelectedChoices" OnValidSubmit="AddAttemptChoices" FormName="AddAttemptChoices" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="mb-5">
+                    @foreach (var question in Quiz!.Questions)
+                    {
+                        <p class="h5">@question.Description</p>
+                        <ul class="list-group">
+                            @foreach (var choice in question!.Choices)
+                            {
+                                <li class="list-group-item">
+                                    <input class="form-check-input" name="SelectedChoices" type="checkbox" value="@choice.Id" onchange="@(() => ValueChanged(choice.Id))">
+                                    <span class="form-check-label">@choice.Description</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Attempt</button>
+             </EditForm>
+            
+            <div>
+                <a href="@($"/attempts")">Back to List</a>
+            </div>
+        }
+        else
+        {
+            <p>Attempt no longer allowed due to existing submission or timeup.</p>
+        }
+    }
+</div>
+
+@code {
+    Attempt? attempt;
+
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    public Quiz? Quiz { get; set; }
+
+    [SupplyParameterFromForm]
+    protected List<int> SelectedChoices { get; set; } = new List<int>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        attempt = await DB.Attempt.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (attempt is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+            return;
+        }
+
+        Quiz = await DB.Quiz
+                        .Include(q => q.Questions)
+                        .ThenInclude(q => q.Choices)
+                        .FirstOrDefaultAsync(q => q.Id == attempt.QuizId);
+
+        if (Quiz is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+            return;
+        }
+    }
+
+    protected async Task AddAttemptChoices()
+    {
+        if (attempt is null || Quiz is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+            return;
+        }
+
+        await DB.AddRangeAsync(SelectedChoices.Select((id) => new AttemptChoice()
+        {
+            AttemptId = attempt.Id,
+            ChoiceId = id
+        }));
+
+        attempt.IsDone = true;
+
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("attempts");
+    }
+
+    protected void ValueChanged(int choiceId)
+    {
+        if (SelectedChoices.Contains(choiceId))
+        {
+            SelectedChoices.Remove(choiceId);
+        } else
+        {
+            SelectedChoices.Add(choiceId);
+        }
+    }
+}
