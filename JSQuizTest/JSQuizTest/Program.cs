@@ -1,12 +1,12 @@
 ﻿using JSQuizTest.Components;
 using JSQuizTest.Components.Account;
 using JSQuizTest.Data;
-using JSQuizTest.Repositories;
 using JSQuizTest.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace JSQuizTest
 {
@@ -35,21 +35,20 @@ namespace JSQuizTest
                 })
                 .AddIdentityCookies();
 
+            builder.Services.AddAuthorizationCore(options =>
+            {
+                options.AddPolicy("IsAdmin", policy =>
+                {
+                    policy.RequireClaim(ClaimTypes.Role, "Admin");
+                });
+            });
+
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                 ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
-
-            builder.Services.AddTransient<IQuestionRepository, QuestionRepository>();
-            builder.Services.AddScoped<QuestionService>();
-
-            builder.Services.AddTransient<IChoiceRepository, ChoiceRepository>();
-            builder.Services.AddScoped<ChoiceService>();
-
-            builder.Services.AddTransient<IQuizRepository, QuizRepository>();
-            builder.Services.AddScoped<QuizService>();
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -62,6 +61,7 @@ namespace JSQuizTest
             builder.Services.AddBlazorBootstrap();
 
             builder.Services.AddScoped<IClaimsTransformation, ApplicationUserClaimsTransformation>();
+
 
             var app = builder.Build();
 

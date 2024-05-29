@@ -3,8 +3,9 @@
 @using JSQuizTest.Models
 @inject NavigationManager NavigationManager
 @using Microsoft.EntityFrameworkCore
-@using JSQuizTest.Services
-@inject QuestionService QuestionService
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "IsAdmin")]
 
 <PageTitle>Edit</PageTitle>
 
@@ -66,7 +67,7 @@ else
             NavigationManager.NavigateTo("notfound");
         }
 
-        Questions = QuestionService.GetQuestions().ToList();
+        Questions = await DB.Question.ToListAsync();
     }
 
     // To protect from overposting attacks, enable the specific properties you want to bind to.

@@ -1,20 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Learn\\ASP.NET\\JSQuizTest\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{9285E26A-C4D8-4221-839E-EFBD59F666DB}|JSQuizTest\\JSQuizTest\\JSQuizTest.csproj|d:\\learn\\asp.net\\jsquiztest\\jsquiztest\\jsquiztest\\components\\pages\\attemptpages\\result.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9285E26A-C4D8-4221-839E-EFBD59F666DB}|JSQuizTest\\JSQuizTest\\JSQuizTest.csproj|solutionrelative:jsquiztest\\jsquiztest\\components\\pages\\attemptpages\\result.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9285E26A-C4D8-4221-839E-EFBD59F666DB}|JSQuizTest\\JSQuizTest\\JSQuizTest.csproj|d:\\learn\\asp.net\\jsquiztest\\jsquiztest\\jsquiztest\\components\\pages\\attemptpages\\history.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9285E26A-C4D8-4221-839E-EFBD59F666DB}|JSQuizTest\\JSQuizTest\\JSQuizTest.csproj|solutionrelative:jsquiztest\\jsquiztest\\components\\pages\\attemptpages\\history.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9285E26A-C4D8-4221-839E-EFBD59F666DB}|JSQuizTest\\JSQuizTest\\JSQuizTest.csproj|d:\\learn\\asp.net\\jsquiztest\\jsquiztest\\jsquiztest\\components\\pages\\quizpages\\details.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9285E26A-C4D8-4221-839E-EFBD59F666DB}|JSQuizTest\\JSQuizTest\\JSQuizTest.csproj|solutionrelative:jsquiztest\\jsquiztest\\components\\pages\\quizpages\\details.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -22,48 +9,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "History.razor",
-              "DocumentMoniker": "D:\\Learn\\ASP.NET\\JSQuizTest\\JSQuizTest\\JSQuizTest\\Components\\Pages\\AttemptPages\\History.razor",
-              "RelativeDocumentMoniker": "JSQuizTest\\JSQuizTest\\Components\\Pages\\AttemptPages\\History.razor",
-              "ToolTip": "D:\\Learn\\ASP.NET\\JSQuizTest\\JSQuizTest\\JSQuizTest\\Components\\Pages\\AttemptPages\\History.razor",
-              "RelativeToolTip": "JSQuizTest\\JSQuizTest\\Components\\Pages\\AttemptPages\\History.razor",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-28T11:44:44.348Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Result.razor",
-              "DocumentMoniker": "D:\\Learn\\ASP.NET\\JSQuizTest\\JSQuizTest\\JSQuizTest\\Components\\Pages\\AttemptPages\\Result.razor",
-              "RelativeDocumentMoniker": "JSQuizTest\\JSQuizTest\\Components\\Pages\\AttemptPages\\Result.razor",
-              "ToolTip": "D:\\Learn\\ASP.NET\\JSQuizTest\\JSQuizTest\\JSQuizTest\\Components\\Pages\\AttemptPages\\Result.razor",
-              "RelativeToolTip": "JSQuizTest\\JSQuizTest\\Components\\Pages\\AttemptPages\\Result.razor",
-              "ViewState": "AQIAABYAAAAAAAAAAAAcwDEAAAAjAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-28T11:37:28.042Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Details.razor",
-              "DocumentMoniker": "D:\\Learn\\ASP.NET\\JSQuizTest\\JSQuizTest\\JSQuizTest\\Components\\Pages\\QuizPages\\Details.razor",
-              "RelativeDocumentMoniker": "JSQuizTest\\JSQuizTest\\Components\\Pages\\QuizPages\\Details.razor",
-              "ToolTip": "D:\\Learn\\ASP.NET\\JSQuizTest\\JSQuizTest\\JSQuizTest\\Components\\Pages\\QuizPages\\Details.razor",
-              "RelativeToolTip": "JSQuizTest\\JSQuizTest\\Components\\Pages\\QuizPages\\Details.razor",
-              "ViewState": "AQIAABkAAAAAAAAAAAAIwCYAAAA2AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-28T11:30:41.611Z"
             }
           ]
         }

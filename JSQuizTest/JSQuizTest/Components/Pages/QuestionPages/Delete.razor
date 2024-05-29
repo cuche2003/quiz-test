@@ -1,8 +1,13 @@
 ﻿@page "/questions/delete"
-@inject JSQuizTest.Services.QuestionService QuestionService
 @using JSQuizTest.Models
 @inject NavigationManager NavigationManager
+@using JSQuizTest.Data
+@inject ApplicationDbContext DB
 @using Microsoft.EntityFrameworkCore
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "IsAdmin")]
 
 <PageTitle>Delete</PageTitle>
 
@@ -39,7 +44,7 @@
 
     protected override void OnInitialized()
     {
-        question = QuestionService.GetQuestionById(Id);
+        question = DB.Question.Find(Id);
 
         if (question is null)
         {
@@ -49,8 +54,10 @@
 
     public async Task DeleteQuestion()
     {
-        QuestionService.DeleteQuestion(Id);
-        await QuestionService.SaveAsync();
+        var context = await DbFactory.CreateDbContextAsync();
+        context.Question.Remove(question!);
+        await context.SaveChangesAsync();
+
         if (question is not null)
         {
             NavigationManager.NavigateTo($"/quizzes/details?id={question.QuizId}");

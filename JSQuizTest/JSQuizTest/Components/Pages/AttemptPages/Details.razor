@@ -3,8 +3,9 @@
 @using JSQuizTest.Models
 @inject NavigationManager NavigationManager
 @using Microsoft.EntityFrameworkCore
-@using JSQuizTest.Services
-@inject QuizService QuizService
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <PageTitle>Details</PageTitle>
 
@@ -24,19 +25,21 @@
              <EditForm method="post" Model="SelectedChoices" OnValidSubmit="AddAttemptChoices" FormName="AddAttemptChoices" Enhance>
                 <DataAnnotationsValidator />
                 <ValidationSummary />
-                <div class="mb-5">
+                <div>
                     @foreach (var question in Quiz!.Questions)
                     {
-                        <p class="h5">@question.Description</p>
-                        <ul class="list-group">
-                            @foreach (var choice in question!.Choices)
-                            {
-                                <li class="list-group-item">
-                                    <input class="form-check-input" name="SelectedChoices" type="checkbox" value="@choice.Id" onchange="@(() => ValueChanged(choice.Id))">
-                                    <span class="form-check-label">@choice.Description</span>
-                                </li>
-                            }
-                        </ul>
+                        <div class="mb-5">
+                            <p class="h5">@question.Description</p>
+                            <ul class="list-group">
+                                @foreach (var choice in question!.Choices)
+                                {
+                                    <li class="list-group-item">
+                                        <input class="form-check-input" name="SelectedChoices" type="checkbox" value="@choice.Id" onchange="@(() => ValueChanged(choice.Id))">
+                                        <span class="form-check-label">@choice.Description</span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
                     }
                 </div>
                 <button type="submit" class="btn btn-primary">Submit Attempt</button>

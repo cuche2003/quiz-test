@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using JSQuizTest.Data
 
-
 @using JSQuizTest.Models
 @using Microsoft.EntityFrameworkCore
 @using System.Security.Claims
@@ -10,6 +9,9 @@
 @inject ApplicationDbContext DB
 @inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject NavigationManager navigationManager
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <PageTitle>History</PageTitle>
 
@@ -38,8 +40,15 @@ else
                         .FirstOrDefault(q => q.Id == QuizId)!.Attempts.AsQueryable()">
                 <PropertyColumn Property="attempt => attempt.Created" />
                 <PropertyColumn Property="attempt => attempt.IsDone" />
-                <TemplateColumn Context="question">
-                    <a href="@($"attempts/result?id={question.Id}")">Result</a>
+                <TemplateColumn Context="attempt">
+                    @if (attempt.IsDone)
+                    {
+                        <a href="@($"attempts/result?id={attempt.Id}")">Result</a>
+                    } 
+                    else
+                    {
+                        <a href="@($"attempts/details?id={attempt.Id}")">Continue</a>
+                    }
                 </TemplateColumn>
             </QuickGrid>
         </Authorized>

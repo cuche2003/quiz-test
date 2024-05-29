@@ -2,10 +2,12 @@
 @using JSQuizTest.Data
 @inject ApplicationDbContext DB
 @using Microsoft.EntityFrameworkCore
-@using JSQuizTest.Services
-@inject QuestionService QuestionService
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
 @using JSQuizTest.Models
 @inject NavigationManager NavigationManager
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "IsAdmin")]
 
 <PageTitle>Edit</PageTitle>
 
@@ -66,11 +68,12 @@ else
     // For more details, see https://aka.ms/RazorPagesCRUD.
     public async Task UpdateQuestion()
     {
-        QuestionService.UpdateQuestion(Question!);
-
+        var context = await DbFactory.CreateDbContextAsync();
+        context.Question.Attach(Question!).State = EntityState.Modified;
+        
         try
         {
-            await QuestionService.SaveAsync();
+            await context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -92,6 +95,6 @@ else
 
     bool QuestionExists(int id)
     {
-        return QuestionService.GetQuestionById(id) != null;
+        return DbFactory.CreateDbContext().Question.Find(id) != null;
     }
 }

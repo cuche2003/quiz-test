@@ -2,10 +2,11 @@
 @using JSQuizTest.Models
 @using Microsoft.EntityFrameworkCore
 @using JSQuizTest.Data
-@inject JSQuizTest.Services.QuestionService QuestionService
-@inject JSQuizTest.Services.QuizService QuizService
 @inject IDbContextFactory<ApplicationDbContext> DbFactory
 @inject NavigationManager NavigationManager
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "IsAdmin")]
 
 <PageTitle>Create</PageTitle>
 
@@ -67,14 +68,15 @@
     {
         base.OnInitialized();
 
-        Quizzes = QuizService.GetQuizzes().ToList();
+        Quizzes = DbFactory.CreateDbContext().Quiz.ToList();
     }
 
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task AddQuestion()
     {
-        QuestionService.InsertQuestion(Question);
-        await QuestionService.SaveAsync();
+        var context = await DbFactory.CreateDbContextAsync();
+        await context.Question.AddAsync(Question);
+        await context.SaveChangesAsync();
         if (QuizId is null)
         {
             NavigationManager.NavigateTo("/questions");

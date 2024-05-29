@@ -19,7 +19,7 @@ namespace JSQuizTest.Services
             if (!principal.HasClaim(c => c.Type == ClaimTypes.Role))
             {
                 identity.AddClaim(new Claim(
-                    ClaimTypes.Role, principal.Identity.Name == "admin@admin.com" ? "Admin" : "User")
+                    ClaimTypes.Role, principal.Identity.Name == "admin@gmail.com" ? "Admin" : "User")
                 );
             }
 

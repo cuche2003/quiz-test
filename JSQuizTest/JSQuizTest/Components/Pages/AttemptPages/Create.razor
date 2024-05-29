@@ -1,10 +1,14 @@
 ﻿@page "/attempts/create"
 @inject JSQuizTest.Data.ApplicationDbContext DB
+@using Microsoft.EntityFrameworkCore
+@using JSQuizTest.Data
+@inject IDbContextFactory<ApplicationDbContext> DbFactory
 @using JSQuizTest.Models
 @inject NavigationManager NavigationManager
-@using JSQuizTest.Services
-@inject QuizService QuizService
 @using System.Security.Claims
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <PageTitle>Create</PageTitle>
 
@@ -51,7 +55,7 @@
     {
         base.OnInitialized();
 
-        Quizzes = QuizService.GetQuizzes().ToList();
+        Quizzes = DbFactory.CreateDbContext().Quiz.ToList();
     }
 
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD

@@ -1,14 +1,17 @@
 ﻿@page "/attempts"
 @using Microsoft.AspNetCore.Components.QuickGrid
 @using JSQuizTest.Models
-@using JSQuizTest.Services
-@inject QuizService QuizService
+@using JSQuizTest.Data
+@inject ApplicationDbContext DB
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <PageTitle>Index</PageTitle>
 
 <h1>Index</h1>
 
-<QuickGrid Class="table" Items="QuizService.GetQuizzes().AsQueryable()">
+<QuickGrid Class="table" Items="DB.Quiz">
     <PropertyColumn Property="quiz => quiz.Title" />
     <PropertyColumn Property="quiz => quiz.Description" />
 

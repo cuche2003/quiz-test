@@ -3,8 +3,9 @@
 @using JSQuizTest.Models
 @inject NavigationManager NavigationManager
 @using Microsoft.EntityFrameworkCore
-@using JSQuizTest.Services
-@inject QuizService QuizService
+
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
 <PageTitle>Result</PageTitle>
 
@@ -26,7 +27,7 @@
                 <ul class="list-group">
                     @foreach (var choice in question!.Choices)
                     {
-                        <li class="list-group-item @(choice.IsCorrect ? "bg-primary" : "bg-danger")">
+                        <li class="list-group-item @(choice.IsCorrect ? "bg-success" : "bg-danger")">
                             <input class="form-check-input" name="SelectedChoices" type="checkbox" checked="@(SelectedChoices.Contains(choice.Id))" disabled>
                             <span class="form-check-label">@choice.Description</span>
                         </li>
@@ -68,7 +69,7 @@
 
         SelectedChoices = await DB.AttemptChoice
                             .Where(ac => ac.AttemptId == Id)
-                            .Select(ac => ac.Id)
+                            .Select(ac => ac.ChoiceId)
                             .ToListAsync();
 
         if (Quiz is null)
