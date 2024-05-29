@@ -25,6 +25,7 @@ else
                 <DataAnnotationsValidator />
                 <ValidationSummary />
                 <input type="hidden" name="Choice.Id" value="@Choice.Id" />
+                <input type="hidden" name="Choice.QuestionId" value="@Choice.QuestionId" />
                 <div class="mb-3">
                     <label for="description" class="form-label">Description:</label>
                     <InputText id="description" @bind-Value="Choice.Description" class="form-control" />
